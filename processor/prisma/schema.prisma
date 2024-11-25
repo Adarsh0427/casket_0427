@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id       Int      @id  @default(autoincrement()) 
+  id       String      @id  @default(uuid()) 
   name     String
   email    String   @unique
   password String
@@ -24,7 +24,7 @@ model User {
 
 model Zap {
   id   String @id @default(uuid())
-  userId Int
+  userId String
   triggerId String?
   trigger Trigger? @relation("triggerIdfield")
   actions Action[]

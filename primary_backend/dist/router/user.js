@@ -29,6 +29,10 @@ function verify_creds_token(res, req, data, out) {
                 expires: expirationDate,
                 path: '/'
             });
+            res.cookie('uniqueId', out.uniqueId, {
+                expires: expirationDate,
+                path: '/'
+            });
         }
         res.send(out);
     });
@@ -60,7 +64,8 @@ router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function*
             email: parsedData.data.email,
             name: parsedData.data.userName,
             password: hashedPassword,
-            token: gen_token
+            token: gen_token,
+            zaps: {}
         }
     });
     res.json({ status: "User created",
@@ -78,7 +83,6 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const data_cookie = (0, middleware_1.getDataFromCookie)(req);
         let email = data_cookie.userID.replace("%40", "@");
         encryption_1.AuthDB.deleteToken(email);
-        console.log(email);
         return res.status(400).json({ error: "Invalid credentials" });
     }
     verify_creds_token(res, req, { userID: parsedData.data.email }, response);

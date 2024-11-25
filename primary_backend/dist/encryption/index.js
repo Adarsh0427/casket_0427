@@ -23,9 +23,6 @@ class AuthDB {
         return __awaiter(this, void 0, void 0, function* () {
             const res = {
                 status: false,
-                token: "",
-                userName: "",
-                email: "",
                 error: ""
             };
             const user = yield db_1.prismaClient.user.findFirst({
@@ -35,8 +32,6 @@ class AuthDB {
             });
             if (user && (user.token == this.hash(token))) {
                 res.status = true;
-                res.userName = user.name;
-                res.email = user.email;
             }
             else
                 res.status = false;
@@ -50,7 +45,8 @@ class AuthDB {
                 token: "",
                 userName: "",
                 email: "",
-                error: ""
+                error: "",
+                uniqueId: ""
             };
             const user = yield db_1.prismaClient.user.findFirst({
                 where: {
@@ -63,6 +59,7 @@ class AuthDB {
                     res.token = AuthDB.genToken();
                     res.userName = user.name;
                     res.email = user.email;
+                    res.uniqueId = user.id.toString();
                     yield db_1.prismaClient.user.update({
                         where: {
                             email: userID

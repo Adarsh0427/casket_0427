@@ -63,7 +63,8 @@ router.post("/signup",async (req, res) => {
             email: parsedData.data.email,
             name: parsedData.data.userName,
             password: hashedPassword,
-            token: gen_token    
+            token: gen_token,   
+            zaps:{} 
         }
     });
     res.json({status: "User created",
